@@ -20,5 +20,5 @@ jobs:
       run: |
         if [ ! -d "~/word2vec" ]; then
           mkdir ~/word2vec
-          wget -P ~/word2vec https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative300.bin.gz
+          wget -P ~/word2vec https://example.com/GoogleNews-vectors-negative300.bin.gz
         fi
