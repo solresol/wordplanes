@@ -5,7 +5,9 @@ curl -f -o "$HOME/word2vec/GoogleNews-vectors-negative300.bin.gz" https://s3.ama
 
 # Check if download was unsuccessful
 if [ $? -ne 0 ]; then
-    then
+    else
+        echo "Download failed due to 404 Not Found error"
+        exit 1
     echo "Download failed"
     exit 1
 fi
