@@ -1,0 +1,24 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Cache word2vec
+      uses: actions/cache@v2
+      with:
+        path: ~/word2vec
+        key: ${{ runner.os }}-word2vec-${{ hashFiles('**/requirements.txt') }}
+    - name: Download word2vec
+      run: |
+        if [ ! -d "~/word2vec" ]; then
+          mkdir ~/word2vec
+          wget -P ~/word2vec https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative300.bin.gz
+        fi
