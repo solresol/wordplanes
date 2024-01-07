@@ -1,10 +1,12 @@
 #!/bin/bash
 
 # Download word2vec file
-curl -f -o "$HOME/word2vec/GoogleNews-vectors-negative300.bin.gz" https://example.com/word2vec
+curl -f -o "$HOME/word2vec/GoogleNews-vectors-negative300.bin.gz" https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative300.bin.gz
 
 # Check if download was unsuccessful
 
-    echo "Download failed"
+if [ $? -ne 0 ]; then
+    echo "Download failed: Word2Vec file could not be downloaded" 
     exit 1
+fi
 fi
