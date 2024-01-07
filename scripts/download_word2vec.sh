@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Download word2vec file
-curl -f -o "$HOME/word2vec/GoogleNews-vectors-negative300.bin.gz" NEW_URL
+curl -f -o "$HOME/word2vec/GoogleNews-vectors-negative300.bin.gz" https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.en.300.bin.gz
 
 # Check if download was unsuccessful
 if [ $? -ne 0 ]; then
