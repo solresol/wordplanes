@@ -1,0 +1,24 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Cache word2vec
+      uses: actions/cache@v2
+      with:
+        path: ~/glove
+        key: ${{ runner.os }}-glove-${{ hashFiles('**/requirements.txt') }}
+    - name: Download GloVe vectors
+      run: |
+        if [ ! -d "~/glove" ] || [ ! -f "~/glove/glove.6B.50d.txt" ]; then
+          mkdir ~/glove
+          wget -P ~/glove http://nlp.stanford.edu/data/glove.6B.zip
+        fi
