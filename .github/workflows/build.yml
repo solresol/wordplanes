@@ -14,11 +14,11 @@ jobs:
     - name: Cache word2vec
       uses: actions/cache@v2
       with:
-        path: ~/word2vec
-        key: ${{ runner.os }}-word2vec-${{ hashFiles('**/requirements.txt') }}
-    - name: Download word2vec
+        path: ~/glove
+        key: ${{ runner.os }}-glove-${{ hashFiles('**/requirements.txt') }}
+    - name: Download GloVe
       run: |
-        if [ ! -d "~/word2vec" ]; then
-          mkdir ~/word2vec
-          wget -P ~/word2vec https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative300.bin.gz
+        if [ ! -d "~/glove" ]; then
+          mkdir ~/glove
+          wget -P ~/glove https://nlp.stanford.edu/data/glove.6B.zip
         fi
