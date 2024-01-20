@@ -21,4 +21,5 @@ jobs:
         if [ ! -d "~/glove" ] || [ ! -f "~/glove/glove.6B.50d.txt" ]; then
           mkdir ~/glove
           wget -P ~/glove http://nlp.stanford.edu/data/glove.6B.zip
+          unzip -d ~/glove ~/glove/glove.6B.zip
         fi
