@@ -32,4 +32,4 @@ jobs:
           unzip -o -d ~/glove ~/glove/glove.6B.zip
         fi
     - name: Convert embeddings to SQLite database
-      run: python embeddings2sqlite.py --embeddings-file ~/glove/glove.6B.50d.txt --sqlite-database ~/glove/glove.db --table glove --dimensionality 50 --commit-after 1000
+      run: python embeddings2sqlite.py --embeddings-file ~/glove/glove.6B.50d.txt --sqlite-database ~/glove/glove.50d.sqlite --table glove --dimensionality 50 --commit-after 1000
