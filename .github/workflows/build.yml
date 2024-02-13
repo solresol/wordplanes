@@ -11,17 +11,25 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
+    - name: make glove directory
+      run: |
+        mkdir -p ~/glove
     - name: Cache word2vec
+      id: cache-word2vec
       uses: actions/cache@v2
       with:
-        path: ~/glove
-        key: ${{ runner.os }}-glove-${{ hashFiles('**/requirements.txt') }}
+        path: ~/glove/glove.6B.zip
+        key: glove.6B.zip
     - name: Download GloVe vectors
+      if: steps.cache-word2vec.outputs.cache-hit != 'true'
       run: |
-        if [ ! -d "~/glove" ] || [ ! -f "~/glove/glove.6B.50d.txt" ]; then
-          mkdir -p ~/glove
+        if [ ! -f "~/glove/glove.6B.zip" ]; then
           wget -P ~/glove http://nlp.stanford.edu/data/glove.6B.zip
-          unzip -d ~/glove ~/glove/glove.6B.zip
+        fi
+    - name: Expand 50d vectors
+      run: |
+        if [ ! -f "~/glove/glove.6B.50d.txt" ]; then
+          unzip -o -d ~/glove ~/glove/glove.6B.zip
         fi
     - name: Convert embeddings to SQLite database
       run: python embeddings2sqlite.py --embeddings-file ~/glove/glove.6B.50d.txt --sqlite-database ~/glove/glove.db --table glove --dimensionality 50 --commit-after 1000
