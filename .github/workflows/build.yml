@@ -13,6 +13,8 @@ jobs:
         python-version: 3.8
     - name: Install Python dependencies
       run: pip install -r requirements.txt
+    - name: Download NLTK wordnet dataset
+      run: python -c "import nltk; nltk.download('wordnet')"
     - name: make glove directory
       run: |
         mkdir -p ~/glove
