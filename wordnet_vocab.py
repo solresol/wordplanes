@@ -25,6 +25,8 @@ class GloveLookup:
 
     def lookup_synset(self, synset_name):
         term = synset_name.split('.')[0]
+        if term in self.cache:
+            return self.cache[term]
         self.cursor.execute(f"SELECT * FROM {self.table_name} WHERE term = ?", (term,))
         row = self.cursor.fetchone()
         if row:
