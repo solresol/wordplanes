@@ -33,13 +33,13 @@ class GloveLookup:
             vector = np.array(row[1:1+self.dimension])
             self.cache[term] = vector
             return vector
-        return None
+        raise KeyError(f"Term '{term}' not found in the database.")
 
     def dump_as_glove(self, synset_name):
         vector = self.lookup_synset(synset_name)
         if vector is not None:
             return f"{synset_name.split('.')[0]} " + ' '.join(map(str, vector))
-        return None
+        raise KeyError(f"Synset '{synset_name}' not found in the database.")
 
 import sqlite3
 import numpy as np
