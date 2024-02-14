@@ -25,14 +25,22 @@ if args.subsample is not None:
 for i, word1 in enumerate(vocab):
     for j, word2 in enumerate(vocab[i+1:]):
         for word3 in vocab[i+j+2:]:
-            point1 = glove_lookup.lookup_synset(word1)
-            point2 = glove_lookup.lookup_synset(word2)
-            point3 = glove_lookup.lookup_synset(word3)
+            try:
+                point1 = glove_lookup.lookup_synset(word1)
+                point2 = glove_lookup.lookup_synset(word2)
+                point3 = glove_lookup.lookup_synset(word3)
+            except KeyError as e:
+                print(f"Error: {e}")
+                continue
             plane = Plane(point1, point2, point3)
             distances = []
             for word in vocab:
                 if word not in {word1, word2, word3}:
-                    point = glove_lookup.lookup_synset(word)
+                    try:
+                        point = glove_lookup.lookup_synset(word)
+                    except KeyError as e:
+                        print(f"Error: {e}")
+                        continue
                     distance, _ = plane.distance_to_plane(point)
                     distances.append(distance)
             distances = np.array(distances)
