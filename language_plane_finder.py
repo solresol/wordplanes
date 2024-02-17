@@ -33,6 +33,9 @@ for i, word1 in enumerate(vocab):
                 print(f"Error: {e}")
                 continue
             plane = Plane(point1, point2, point3)
+            if not plane.is_valid():
+                print(f"Error: Cannot form a valid plane with points {word1}, {word2}, and {word3}")
+                continue
             distances = []
             for word in vocab:
                 if word not in {word1, word2, word3}:
@@ -41,7 +44,7 @@ for i, word1 in enumerate(vocab):
                     except KeyError as e:
                         print(f"Error: {e}")
                         continue
-                    distance, _ = plane.distance_to_plane(point)
+                    distance = plane.distance_to_plane(point)
                     distances.append(distance)
             distances = np.array(distances)
             stats = np.percentile(distances, [0.1, 1, 25, 50, 75, 99, 99.9, 100]), distances.mean(), distances.std()
