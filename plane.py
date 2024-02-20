@@ -12,13 +12,18 @@ class Plane:
         self.M = self.calculate_orthogonal_transformation_matrix(point1, point2, point3)
 
     def distance_to_plane(self, point):
-        distance = np.abs(np.dot(self.normal_vector, point - self.point1)) / np.linalg.norm(self.normal_vector)
-        closest_point = point - distance * self.normal_vector / np.linalg.norm(self.normal_vector)
-        return distance, closest_point
-        distance = np.linalg.norm(transformed_point)
-        
-        # The closest point on the plane to the input point is the original point minus the distance times the transformed point
-        closest_point = point - distance * transformed_point
+        # Translate the plane to the origin by subtracting self.point1 from the input point
+        translated_point = point - self.point1
+    
+        # Calculate the transformed point by multiplying the projection matrix M with the translated point
+        transformed_point = self.M @ translated_point
+    
+        # Calculate the distance to the plane as the norm of the difference between the input point and the transformed point
+        distance = np.linalg.norm(point - transformed_point)
+    
+        # The closest point on the plane to the input point is the original point minus the component orthogonal to the plane
+        closest_point = point - (point - transformed_point)
+    
         return distance, closest_point
 def calculate_orthogonal_transformation_matrix(self, point1, point2, point3):
     # This method calculates the orthogonal transformation matrix using QR decomposition
