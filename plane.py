@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.linalg import qr
 
 
 class Plane:
@@ -20,16 +21,19 @@ class Plane:
         closest_point = point - distance * transformed_point
         return distance, closest_point
 def calculate_orthogonal_transformation_matrix(self, point1, point2, point3):
-    # This method calculates the orthogonal transformation matrix
+    # This method calculates the orthogonal transformation matrix using QR decomposition
     # The matrix is such that when you multiply it by point1, point2, or point3, the first two components will map to zero
 
-    # Calculate the normal vector of the plane defined by point1, point2, and point3
-    normal_vector = np.cross(point2 - point1, point3 - point1)
+    # Stack point1, point2, and point3 as columns in a matrix A
+    A = np.column_stack((point1, point2, point3))
 
-    # Normalize the normal vector
-    normal_vector = normal_vector / np.linalg.norm(normal_vector)
+    # Perform QR decomposition on matrix A to obtain matrices Q and R
+    Q, R = qr(A)
 
-    # Calculate the orthogonal transformation matrix
-    M = np.eye(len(point1)) - 2 * np.outer(normal_vector, normal_vector)
+    # Take the first two columns of Q and use them as the basis vectors for the plane
+    basis_vectors = Q[:, :2]
+
+    # Construct the projection matrix M onto the plane using these two basis vectors
+    M = basis_vectors @ basis_vectors.T
 
     return M
