@@ -104,7 +104,7 @@ def query_claude(client: anthropic.Client, adjective: str) -> Dict[bool, bool]:
             
     return results
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--stop-after", type=int, help="Only process this many adjectives")
     parser.add_argument("--anthropic-api-key-file", default=os.path.expanduser("~/.anthropic.key"))
