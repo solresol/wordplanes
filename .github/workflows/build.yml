@@ -11,6 +11,10 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
+    - name: Install Python dependencies
+      run: pip install -r requirements.txt
+    - name: Download NLTK wordnet dataset
+      run: python -c "import nltk; nltk.download('wordnet')"
     - name: make glove directory
       run: |
         mkdir -p ~/glove
@@ -32,4 +36,13 @@ jobs:
           unzip -o -d ~/glove ~/glove/glove.6B.zip
         fi
     - name: Convert embeddings to SQLite database
-      run: python embeddings2sqlite.py --embeddings-file ~/glove/glove.6B.50d.txt --sqlite-database ~/glove/glove.db --table glove --dimensionality 50 --commit-after 1000
+      run: python embeddings2sqlite.py --embeddings-file ~/glove/glove.6B.50d.txt --sqlite-database ~/glove/glove.50d.sqlite --table glove --dimensionality 50 --commit-after 1000
+    - name: Run Language Plane Finder Test
+      run: python language_plane_finder.py --sqlite-database ~/glove/glove.50d.sqlite --table glove --dimensionality 50 --subsample 5
+    - name: Run GloVe Sanity Test
+      run: python test_glove_sanity.py ~/glove/glove.50d.sqlite glove 50 dog.n.01
+    - name: Upload SQLite database
+      uses: actions/upload-artifact@v2
+      with:
+        name: glove.50d.sqlite
+        path: ~/glove/glove.50d.sqlite
