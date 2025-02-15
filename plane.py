@@ -43,6 +43,7 @@ class Plane:
         # Create matrix for null space calculation
         plane_vectors = np.vstack([self.direction1, self.direction2])
         
+from typing import List, Tuple
         # Get the null space (normal space) using SVD
         _, _, Vh = np.linalg.svd(plane_vectors, full_matrices=True)
         normal_basis = Vh[2:]  # All vectors except the first two form the normal space basis
@@ -99,7 +100,7 @@ class Plane:
         
         return np.array([coord1, coord2]), projected_point
 
-def parse_point(point_str):
+def parse_point(point_str: str) -> np.ndarray:
     """
     Parse a comma-separated string of numbers into a numpy array.
     
