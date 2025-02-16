@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 personality_adjectives.sqlite
 *~
+.DS_Store
